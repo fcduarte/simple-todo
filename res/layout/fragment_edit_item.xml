@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.fcduarte.todoapp.EditItemFragment" >
+
+    <Button
+        android:id="@+id/btnSaveItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etEditItem"
+        android:layout_below="@+id/etEditItem"
+        android:layout_marginTop="33dp"
+        android:text="@string/save_item_label" />
+
+    <TextView
+        android:id="@+id/tvEditItemLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/edit_item_label"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/etEditItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvEditItemLabel"
+        android:layout_below="@+id/tvEditItemLabel"
+        android:layout_marginTop="29dp"
+        android:ems="10"
+        android:inputType="text" />
+
+</RelativeLayout>
