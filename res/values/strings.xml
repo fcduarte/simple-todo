@@ -9,5 +9,7 @@
     <string name="title_activity_edit_item">Edit Item</string>
     <string name="edit_item_label">Edit Item below:</string>
     <string name="save_item_label">Save</string>
+    <string name="remove_item_dialog_message">Are you sure that you want to remove this item?</string>
+    <string name="warning_dialog_title">Warning</string>
 
 </resources>
