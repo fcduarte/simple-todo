@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.fcduarte.todoapp.TodoActivity"
+            android:name="com.fcduarte.todoapp.activity.TodoActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +23,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.fcduarte.todoapp.EditItemActivity"
+            android:name="com.fcduarte.todoapp.activity.EditItemActivity"
             android:label="@string/title_activity_edit_item"
-            android:parentActivityName="com.fcduarte.todoapp.TodoActivity" >
+            android:parentActivityName="com.fcduarte.todoapp.activity.TodoActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fcduarte.todoapp.TodoActivity" />
