@@ -1,4 +1,4 @@
-package com.fcduarte.todoapp;
+package com.fcduarte.todoapp.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.fcduarte.todoapp.R;
+
 public class EditItemActivity extends Activity {
 	
 	public static final String ITEM_DESCRIPTION = "item_description";
-	public static final String ITEM_POSITION = "item_position";
+	public static final String ITEM_ID = "item_id";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class EditItemActivity extends Activity {
 
 		private EditText etEditItem;
 		private String itemDescription;
-		private int itemPosition;
+		private Long itemId;
 		private Button btnSaveItem;
 		
 		public EditItemFragment() {
@@ -67,7 +69,7 @@ public class EditItemActivity extends Activity {
 
 			Intent intent = getActivity().getIntent();
 			itemDescription = intent.getStringExtra(EditItemActivity.ITEM_DESCRIPTION);
-			itemPosition = intent.getIntExtra(EditItemActivity.ITEM_POSITION, -1);
+			itemId = intent.getLongExtra(EditItemActivity.ITEM_ID, -1);
 			
 			etEditItem = (EditText) rootView.findViewById(R.id.etEditItem);
 			etEditItem.setText(itemDescription);
@@ -84,7 +86,7 @@ public class EditItemActivity extends Activity {
 					} else {
 						Intent data = new Intent();
 						data.putExtra(EditItemActivity.ITEM_DESCRIPTION, newItemDescription);
-						data.putExtra(EditItemActivity.ITEM_POSITION, itemPosition);
+						data.putExtra(EditItemActivity.ITEM_ID, itemId);
 						getActivity().setResult(TodoActivity.RESULT_OK, data);
 					}
 					
