@@ -28,7 +28,6 @@
         android:ems="10"
         android:hint="@string/new_item_hint" >
 
-        <requestFocus />
     </EditText>
 
     <Button
