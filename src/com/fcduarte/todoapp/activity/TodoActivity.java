@@ -91,22 +91,22 @@ public class TodoActivity extends Activity {
 			lvItems = (ListView) rootView.findViewById(R.id.lvItems);
 			lvItems.setAdapter(itemsAdapter);
 			
-	        SwipeDismissListViewTouchListener touchListener =
-                new SwipeDismissListViewTouchListener(
-            		lvItems,
-                    new SwipeDismissListViewTouchListener.DismissCallbacks() {
-                        @Override
-                        public boolean canDismiss(int position) {
-                            return true;
-                        }
+			SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
+					lvItems,
+					new SwipeDismissListViewTouchListener.DismissCallbacks() {
+						@Override
+						public boolean canDismiss(int position) {
+							return true;
+						}
 
-                        @Override
-                        public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-                            for (int position : reverseSortedPositions) {
-                            	removeTodoItem(position);
-                            }
-                        }
-                    });
+						@Override
+						public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+							for (int position : reverseSortedPositions) {
+								removeTodoItem(position);
+							}
+						}
+					});
+			
 	        lvItems.setOnTouchListener(touchListener);
 	        lvItems.setOnScrollListener(touchListener.makeScrollListener());
 
