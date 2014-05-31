@@ -15,7 +15,7 @@
         android:layout_above="@+id/btnAddItem"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:transcriptMode="alwaysScroll" >
+        android:transcriptMode="normal" >
 
     </ListView>
 

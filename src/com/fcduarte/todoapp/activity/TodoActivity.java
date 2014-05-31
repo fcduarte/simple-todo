@@ -1,9 +1,7 @@
 package com.fcduarte.todoapp.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,6 +22,7 @@ import android.widget.ListView;
 import com.fcduarte.todoapp.R;
 import com.fcduarte.todoapp.database.TodoContract.TodoItem;
 import com.fcduarte.todoapp.database.TodoItemDataSource;
+import com.fcduarte.todoapp.util.SwipeDismissListViewTouchListener;
 
 public class TodoActivity extends Activity {
 
@@ -92,46 +90,25 @@ public class TodoActivity extends Activity {
 
 			lvItems = (ListView) rootView.findViewById(R.id.lvItems);
 			lvItems.setAdapter(itemsAdapter);
+			
+	        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(
+            		lvItems,
+                    new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                        @Override
+                        public boolean canDismiss(int position) {
+                            return true;
+                        }
 
-			lvItems.setOnItemLongClickListener(new OnItemLongClickListener() {
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder.setMessage(R.string.remove_item_dialog_message)
-							.setTitle(R.string.warning_dialog_title)
-							.setPositiveButton(android.R.string.ok,	new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										final int index = lvItems.getFirstVisiblePosition();
-										View itemView = lvItems.getChildAt(0);
-										final int top = (itemView == null) ? 0 : itemView.getTop();
-										
-										removeTodoItem();
-										
-										lvItems.clearFocus();
-										lvItems.post(new Runnable() {
-						                    @Override
-						                    public void run() {
-						                    	lvItems.setSelectionFromTop(index, top);
-						                    }
-						                });
-
-										dialog.dismiss();
-									}
-								})
-							.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										dialog.dismiss();
-									}
-							});
-
-					AlertDialog dialog = builder.create();
-					dialog.show();
-					return true;
-				}
-
-			});
+                        @Override
+                        public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                            for (int position : reverseSortedPositions) {
+                            	removeTodoItem(position);
+                            }
+                        }
+                    });
+	        lvItems.setOnTouchListener(touchListener);
+	        lvItems.setOnScrollListener(touchListener.makeScrollListener());
 
 			lvItems.setOnItemClickListener(new OnItemClickListener() {
 				@Override
@@ -144,7 +121,7 @@ public class TodoActivity extends Activity {
 					intent.putExtra(EditItemActivity.ITEM_DESCRIPTION, 
 							cursor.getString(TodoItem.COLUMN_NAME_ITEM_DESCRIPTION_POSITION));
 					
-					getActivity().startActivityForResult(intent, TodoActivity.REQUEST_EDIT_ITEM);
+					getActivity().startActivityForResult(intent, TodoActivity.REQUEST_EDIT_ITEM);					
 				}
 			});
 
@@ -164,10 +141,13 @@ public class TodoActivity extends Activity {
 			datasource.create(etNewItem.getText().toString());
 			itemsAdapter.changeCursor(datasource.getAll());
 			etNewItem.setText("");
+			lvItems.smoothScrollToPosition(itemsAdapter.getCount());
 		}
 
-		private void removeTodoItem() {
+		private void removeTodoItem(int position) {
 			Cursor cursor = itemsAdapter.getCursor();
+			cursor.moveToPosition(position);
+			
 			datasource.delete(cursor.getLong(TodoItem.COLUMN_NAME_ID_POSITION));
 			itemsAdapter.changeCursor(datasource.getAll());
 		}
