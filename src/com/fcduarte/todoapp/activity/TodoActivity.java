@@ -79,6 +79,8 @@ public class TodoActivity extends Activity {
 		private ListView lvItems;
 		private View rootView;
 		private Button btnAddItem;
+		private EditText etNewItem;
+
 
 		public MainFragment() {
 		}
@@ -87,6 +89,7 @@ public class TodoActivity extends Activity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			rootView = inflater.inflate(R.layout.fragment_todo, container, false);
+			etNewItem = (EditText) rootView.findViewById(R.id.etNewItem);
 
 			lvItems = (ListView) rootView.findViewById(R.id.lvItems);
 			lvItems.setAdapter(itemsAdapter);
@@ -130,6 +133,9 @@ public class TodoActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					addTodoItem();
+					
+					etNewItem.setText("");
+					lvItems.smoothScrollToPosition(itemsAdapter.getCount());
 				}
 			});
 
@@ -137,11 +143,8 @@ public class TodoActivity extends Activity {
 		}
 
 		private void addTodoItem() {
-			EditText etNewItem = (EditText) rootView.findViewById(R.id.etNewItem);
 			datasource.create(etNewItem.getText().toString());
 			itemsAdapter.changeCursor(datasource.getAll());
-			etNewItem.setText("");
-			lvItems.smoothScrollToPosition(itemsAdapter.getCount());
 		}
 
 		private void removeTodoItem(int position) {
